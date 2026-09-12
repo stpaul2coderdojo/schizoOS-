@@ -1,0 +1,7 @@
+{
+  "name": "Vayu Vaidya - Wallmiki E-Psychiatrist",
+  "description": "Wallmiki E-Psychiatrist featuring an ethereal low male voice, interactive creative painting canvas with bot media display, Woebot-style CBT & MiCBT mental wellness practices, schizoOS autopilot modeling, and art automatism by Dr. Bheemaiah Anil K, Director of Vayu Vaidya.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
