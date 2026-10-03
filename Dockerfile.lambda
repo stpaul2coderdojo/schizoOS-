@@ -10,7 +10,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
+RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
 COPY . .
 
@@ -22,9 +22,9 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-# Copy AWS Lambda Web Adapter extension from official AWS ECR Public repository
+# Copy AWS Lambda Web Adapter extension from official AWS ECR Public repository (awsguru)
 # This enables any HTTP server to run inside AWS Lambda without code modifications!
-COPY --from=public.ecr.aws/awsgsl/aws-lambda-adapter:0.8.4 /lambda-adapter /opt/extensions/lambda-adapter
+COPY --from=public.ecr.aws/awsguru/aws-lambda-adapter:0.8.4 /lambda-adapter /opt/extensions/lambda-adapter
 
 ENV NODE_ENV=production
 ENV PORT=3000
@@ -33,7 +33,7 @@ ENV AWS_LWA_ENABLE_COMPRESSION=true
 
 # Install production dependencies
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN if [ -f package-lock.json ]; then npm ci --omit=dev; else npm install --omit=dev; fi
 
 # Copy compiled distribution artifacts
 COPY --from=builder /app/dist ./dist

@@ -121,6 +121,11 @@ if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$AWS_REGIO
     --image-uri "$ECR_URI:$IMAGE_TAG" \
     --region "$AWS_REGION" > /dev/null
 
+  echo "⏳ Waiting for Lambda code update to complete..."
+  aws lambda wait function-updated \
+    --function-name "$FUNCTION_NAME" \
+    --region "$AWS_REGION"
+
   echo "⚙️ Updating function configuration (Memory: ${MEMORY_SIZE}MB, Timeout: ${TIMEOUT_SECONDS}s)..."
   aws lambda update-function-configuration \
     --function-name "$FUNCTION_NAME" \
@@ -137,6 +142,11 @@ else
     --memory-size "$MEMORY_SIZE" \
     --timeout "$TIMEOUT_SECONDS" \
     --region "$AWS_REGION" > /dev/null
+
+  echo "⏳ Waiting for Lambda function to become active..."
+  aws lambda wait function-active \
+    --function-name "$FUNCTION_NAME" \
+    --region "$AWS_REGION"
 fi
 
 LAMBDA_ARN=$(aws lambda get-function --function-name "$FUNCTION_NAME" --region "$AWS_REGION" --query 'Configuration.FunctionArn' --output text)
