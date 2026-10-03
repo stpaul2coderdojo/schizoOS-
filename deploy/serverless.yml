@@ -1,0 +1,29 @@
+service: vayu-vaidya-wallmiki
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'prod'}
+  timeout: 30
+  memorySize: 1024
+  environment:
+    NODE_ENV: production
+    PORT: 3000
+    AWS_LWA_PORT: 3000
+    GEMINI_API_KEY: ${env:GEMINI_API_KEY, ''}
+  ecr:
+    images:
+      vayuVaidyaApp:
+        path: ./..
+        file: Dockerfile.lambda
+
+functions:
+  app:
+    image:
+      name: vayuVaidyaApp
+    url: true # Enables AWS Lambda Function URL
+    events:
+      - alexaSkill: amzn1.ask.skill.replace-with-your-skill-id
+      - httpApi: '*'

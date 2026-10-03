@@ -1,0 +1,46 @@
+# ==============================================================================
+# Vayu Vaidya • Wallmiki AWS Lambda Container Image
+# Compatible with AWS Lambda Custom Runtime & AWS Lambda Web Adapter
+# Allows running the full Express server, React UI & Alexa Skill inside AWS Lambda
+# ==============================================================================
+
+# Stage 1: Build frontend and compile server
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+# Compile React 19 SPA & bundle server.ts -> dist/server.cjs
+RUN npm run build
+
+# Stage 2: AWS Lambda Execution Image
+FROM node:20-alpine AS runner
+
+WORKDIR /app
+
+# Copy AWS Lambda Web Adapter extension from official AWS ECR Public repository
+# This enables any HTTP server to run inside AWS Lambda without code modifications!
+COPY --from=public.ecr.aws/awsgsl/aws-lambda-adapter:0.8.4 /lambda-adapter /opt/extensions/lambda-adapter
+
+ENV NODE_ENV=production
+ENV PORT=3000
+ENV AWS_LWA_PORT=3000
+ENV AWS_LWA_ENABLE_COMPRESSION=true
+
+# Install production dependencies
+COPY package*.json ./
+RUN npm ci --omit=dev
+
+# Copy compiled distribution artifacts
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
+
+# Expose internal port
+EXPOSE 3000
+
+# Launch standard compiled server; Lambda Web Adapter handles the Lambda runtime loop
+CMD ["node", "dist/server.cjs"]

@@ -6,7 +6,8 @@ export type NavigationTab =
   | "schizo-os"
   | "scoring"
   | "therapies"
-  | "java-bridge";
+  | "java-bridge"
+  | "alexa";
 
 export interface BotMediaItem {
   id: string;

@@ -5,6 +5,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8.svg?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
 [![Express](https://img.shields.io/badge/Express-4.21-000000.svg?style=flat-square&logo=express)](https://expressjs.com/)
 [![Gemini API](https://img.shields.io/badge/Google_Gemini-2.5_Flash-8e75ff.svg?style=flat-square&logo=google)](https://ai.google.dev/)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 [![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
 > **A clinically grounded, AI-powered e-psychiatry sanctuary integrating Dr. Bheemaiah Anil K's schizoOS cognitive architecture, State Pod Automatism, Woebot-style CBT, MiCBT somatic mindfulness, an ethereal low resonant male voice ("Wallmiki"), and an interactive creative canvas with bot media projection.**
@@ -231,8 +232,75 @@ Words often fail when intense psychiatric trauma or altered states occur. The **
 | `GET` | `/api/system-status` | Java 1.8 SE8 multithreaded simulation & optical prism telemetry |
 | `POST` | `/api/chat` | Conversational e-psychiatry dialogue powered by Gemini with clinical fallbacks |
 | `POST` | `/api/score-therapy` | Calculates CPZ equivalents, drug burden, alternative efficacy, and titration readiness |
+| `POST` | `/api/alexa` | Alexa Skills Kit (ASK) webhook endpoint rendering SSML prosody responses |
+| `GET` | `/api/alexa/model` | Alexa Interaction Model metadata and supported voice intents |
 
 *For full JSON schemas, query parameters, and response payloads, see [`docs/API.md`](docs/API.md).*
+
+---
+
+## 🎙️ Amazon Alexa Skill Integration
+
+Wallmiki is fully integrated into the Amazon Alexa ecosystem via the custom skill **"Vayu Vaidya Wallmiki"**:
+* **Invocation Phrase**: `"Alexa, open Vayu Vaidya"`
+* **Voice Profile**: Ethereal low-resonant male baritone using SSML `<prosody pitch="-15%" rate="92%">` and rhythmic breath pauses `<break time="4s"/>`.
+* **Key Intents**:
+  * `VayuPranayamaIntent`: *"Alexa, ask Vayu Vaidya for a breathing exercise"* (4-4-6-2 vagal pacing).
+  * `GroundingIntent`: *"Alexa, ask Vayu Vaidya to ground my senses"* (5-4-3-2-1 reality anchoring).
+  * `AutopilotCheckIntent`: *"Alexa, ask Vayu Vaidya about autopilot loops"* (schizoOS Autopilot vs Buddhi discernment).
+  * `SomaticScanIntent`: *"Alexa, ask Vayu Vaidya to scan my body"* (MiCBT interoceptive equanimity).
+  * `WallmikiWisdomIntent`: *"Alexa, ask Vayu Vaidya for wisdom"*.
+  * `CbtReflectIntent`: *"Alexa, ask Vayu Vaidya to reframe [thought]"* (Conversational Socratic reframe).
+* **Skill Files**:
+  * Manifest: [`alexa/skill.json`](alexa/skill.json)
+  * Interaction Model: [`alexa/interactionModels/custom/en-US.json`](alexa/interactionModels/custom/en-US.json)
+  * ASK Request Handler: [`alexa/alexa-handler.ts`](alexa/alexa-handler.ts)
+
+---
+
+## 🚀 Deploy to Render (Render.com)
+
+Deploy **Vayu Vaidya • Wallmiki** to Render with automated multi-stage Docker builds, free managed SSL certificates, and zero-downtime deploys using Infrastructure-as-Code:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprints/new)
+
+### Option 1: 1-Click Render Blueprint (`render.yaml`)
+1. Push your repository to GitHub or GitLab (`git push origin main`).
+2. Open the [Render Blueprint Dashboard](https://dashboard.render.com/blueprints/new).
+3. Connect your repository. Render automatically reads `render.yaml`.
+4. Set your `GEMINI_API_KEY` in the environment variable prompt.
+5. Click **Apply**. Render will automatically build the container and deploy your live service!
+
+### Option 2: Render Docker Web Service
+* **Runtime**: Docker (using root `Dockerfile`)
+* **Port**: `3000` (auto-detected from `EXPOSE 3000`)
+* **Environment Variables**: `NODE_ENV=production`, `PORT=3000`, `GEMINI_API_KEY=...`
+* **Health Check Endpoint**: `/api/health`
+
+### Connecting Alexa to your Render HTTPS URL:
+Render generates an automatic HTTPS URL (`https://vayu-vaidya-wallmiki.onrender.com`). You can use this directly as your Alexa Skills Kit HTTPS webhook endpoint:
+* Alexa Endpoint URL: `https://vayu-vaidya-wallmiki.onrender.com/api/alexa`
+* SSL Certificate option: *"My development endpoint is a sub-domain of a domain that has a wildcard certificate from a certificate authority"*.
+
+For complete instructions and custom domain setup (`www.vayuvaidya.info`), see [`docs/RENDER_DEPLOYMENT.md`](docs/RENDER_DEPLOYMENT.md) or run `./deploy/render-deploy.sh`.
+
+---
+
+## ☁️ AWS Lambda Docker Deployment
+
+The application can be deployed as an **AWS Lambda Container Image** (up to 10GB) using the official **AWS Lambda Web Adapter**:
+
+```bash
+# 1-Click Automated Deployment Script
+export AWS_REGION="us-east-1"
+export GEMINI_API_KEY="your_api_key_here"
+./deploy/aws-lambda-deploy.sh
+```
+
+* **Zero Rewrite**: Standard Express and Vite run inside Lambda on port 3000 via `Dockerfile.lambda`.
+* **Dual Trigger Support**: Handles native Alexa Skills Kit triggers (`arn:aws:lambda:...`) and public HTTPS requests via **AWS Lambda Function URLs**.
+* **Infrastructure as Code**: Includes AWS SAM template (`deploy/template.yaml`) and Serverless Framework manifest (`deploy/serverless.yml`).
+* For step-by-step instructions, see [`docs/AWS_LAMBDA_DOCKER_DEPLOYMENT.md`](docs/AWS_LAMBDA_DOCKER_DEPLOYMENT.md).
 
 ---
 

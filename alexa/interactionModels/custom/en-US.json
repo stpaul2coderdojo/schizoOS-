@@ -1,0 +1,122 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "vayu vaidya",
+      "intents": [
+        {
+          "name": "VayuPranayamaIntent",
+          "slots": [],
+          "samples": [
+            "start breathing exercise",
+            "start a breathing exercise",
+            "guide me through breathing",
+            "breathe with me",
+            "pranayama",
+            "vayu pranayama",
+            "four four six two breathing",
+            "calm my breath",
+            "help me breathe",
+            "do a vagal breathing exercise"
+          ]
+        },
+        {
+          "name": "GroundingIntent",
+          "slots": [],
+          "samples": [
+            "ground my senses",
+            "ground me",
+            "do a grounding exercise",
+            "sensory grounding",
+            "five four three two one",
+            "i feel detached",
+            "help me get grounded",
+            "bring me back to reality"
+          ]
+        },
+        {
+          "name": "AutopilotCheckIntent",
+          "slots": [],
+          "samples": [
+            "check my autopilot",
+            "check my autopilot loop",
+            "am i stuck in autopilot",
+            "schizo o s",
+            "schizo o s autopilot",
+            "what is the autopilot loop",
+            "break my thought loop",
+            "activate buddhi",
+            "stop my racing thoughts"
+          ]
+        },
+        {
+          "name": "SomaticScanIntent",
+          "slots": [],
+          "samples": [
+            "scan my body",
+            "body scan",
+            "somatic scan",
+            "check my physical sensations",
+            "help me feel my body",
+            "interoceptive scan"
+          ]
+        },
+        {
+          "name": "WallmikiWisdomIntent",
+          "slots": [],
+          "samples": [
+            "give me wisdom",
+            "share a reflection",
+            "tell me a peaceful thought",
+            "what does wallmiki say",
+            "words of wisdom",
+            "comfort my mind"
+          ]
+        },
+        {
+          "name": "CbtReflectIntent",
+          "slots": [
+            {
+              "name": "userThought",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "i feel like {userThought}",
+            "my mind says {userThought}",
+            "i am worrying that {userThought}",
+            "help me reframe {userThought}",
+            "i cannot stop thinking {userThought}",
+            "reflect on {userThought}"
+          ]
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "stop",
+            "goodbye",
+            "quit",
+            "exit",
+            "end session"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        }
+      ],
+      "types": []
+    }
+  }
+}

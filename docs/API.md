@@ -210,3 +210,52 @@ The backend exposes a JSON REST API on port `3000` (or `PORT` configured in envi
   "phaseDescription": "Sufficient neural stability established. Collaborate with psychiatrist for gradual reduction while sustaining daily Vayu Pranayama and art automatism sessions."
 }
 ```
+
+---
+
+## 4. Amazon Alexa Skills Kit (ASK) Endpoints
+
+### 4.1. Alexa Webhook Handler
+* **Method**: `POST`
+* **Path**: `/api/alexa`
+* **Description**: Receives standard Alexa Skills Kit (ASK) request envelopes (`LaunchRequest`, `IntentRequest`, `SessionEndedRequest`) and responds with compliant Alexa JSON containing SSML formatted in Wallmiki's deep baritone voice (`pitch="-15%"`, `rate="92%"`).
+
+#### Sample Request (Vayu Pranayama Intent):
+```json
+{
+  "version": "1.0",
+  "session": { "new": false, "sessionId": "amzn1.echo-api.session.test" },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "amzn1.echo-api.request.001",
+    "timestamp": "2026-09-13T12:00:00.000Z",
+    "intent": { "name": "VayuPranayamaIntent" }
+  }
+}
+```
+
+#### Sample Response (SSML):
+```json
+{
+  "version": "1.0",
+  "response": {
+    "outputSpeech": {
+      "type": "SSML",
+      "ssml": "<speak><prosody pitch=\"-15%\" rate=\"92%\">Let us practice the Vayu Vaidya four-four-six-two vagal breathing cycle... <break time=\"4s\"/> Inhale slowly... <break time=\"4s\"/> Hold gently... <break time=\"4s\"/> Exhale slowly for six... <break time=\"6s\"/> and pause.</prosody></speak>"
+    },
+    "card": {
+      "type": "Standard",
+      "title": "Vayu Pranayama (4-4-6-2)",
+      "text": "Vagal nerve stimulation: 4s Inhale, 4s Hold, 6s Exhale, 2s Pause."
+    },
+    "shouldEndSession": false
+  }
+}
+```
+
+---
+
+### 4.2. Alexa Model & Metadata
+* **Method**: `GET`
+* **Path**: `/api/alexa/model`
+* **Description**: Returns the active voice profile, skill configuration, invocation names, and list of supported custom intents.

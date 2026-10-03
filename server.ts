@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
 import { createServer as createViteServer } from "vite";
+import { handleAlexaSkillRequest } from "./alexa/alexa-handler";
 
 dotenv.config();
 
@@ -73,7 +74,52 @@ app.get("/api/health", (req, res) => {
     status: "ok",
     hasApiKey: Boolean(process.env.GEMINI_API_KEY),
     botName: "Wallmiki",
+    platform: process.env.AWS_LAMBDA_FUNCTION_NAME ? "AWS Lambda" : "Docker Container",
     timestamp: new Date().toISOString(),
+  });
+});
+
+// Alexa Skills Kit (ASK) Webhook Endpoint
+// Compatible with AWS Lambda Function URL, API Gateway, and Alexa HTTPS Endpoints
+app.post("/api/alexa", async (req, res) => {
+  try {
+    const alexaResponse = await handleAlexaSkillRequest(req.body, process.env.GEMINI_API_KEY);
+    res.json(alexaResponse);
+  } catch (error: any) {
+    console.error("[Alexa Skill Error]:", error);
+    res.status(500).json({
+      version: "1.0",
+      response: {
+        outputSpeech: {
+          type: "SSML",
+          ssml: "<speak><prosody pitch=\"-15%\" rate=\"92%\">I encountered a quiet pause in my thoughts. Let us breathe together.</prosody></speak>",
+        },
+        shouldEndSession: false,
+      },
+    });
+  }
+});
+
+// Alexa Interaction Model & Skill Metadata Endpoint
+app.get("/api/alexa/model", (req, res) => {
+  res.json({
+    skillName: "Vayu Vaidya Wallmiki",
+    invocationName: "vayu vaidya",
+    voiceProfile: "Ethereal Low Resonant Male Voice (-15% pitch, 92% rate)",
+    endpoints: {
+      lambdaArn: "arn:aws:lambda:REGION:ACCOUNT_ID:function:vayu-vaidya-wallmiki",
+      httpWebhook: "/api/alexa",
+    },
+    supportedIntents: [
+      { name: "VayuPranayamaIntent", description: "4-4-6-2 vagal breathing exercise with rhythmic SSML breaks" },
+      { name: "GroundingIntent", description: "5-4-3-2-1 somatic reality grounding" },
+      { name: "AutopilotCheckIntent", description: "schizoOS Autopilot vs Buddhi discernment check-in" },
+      { name: "SomaticScanIntent", description: "MiCBT interoceptive body scan" },
+      { name: "WallmikiWisdomIntent", description: "Contemplative philosophical reflection" },
+      { name: "CbtReflectIntent", description: "Conversational cognitive restructuring (powered by Gemini)" },
+      { name: "AMAZON.HelpIntent", description: "Skill voice guidance" },
+      { name: "AMAZON.StopIntent", description: "Session closure" },
+    ],
   });
 });
 
@@ -648,6 +694,11 @@ async function startServer() {
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`Vayu Vaidya Server running on http://localhost:${PORT}`);
+    if (!process.env.GEMINI_API_KEY) {
+      console.warn("⚠️ Warning: GEMINI_API_KEY is not set in environment. CBT chat will use clinical fallback protocols. Add GEMINI_API_KEY in your hosting dashboard (e.g. Render Dashboard -> Environment).");
+    } else {
+      console.log("✅ GEMINI_API_KEY is configured and active.");
+    }
   });
 }
 

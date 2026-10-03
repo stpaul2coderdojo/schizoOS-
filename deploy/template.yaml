@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Vayu Vaidya • Wallmiki E-Psychiatrist
+  Containerized AWS Lambda deployment with Alexa Skills Kit integration and public Function URL.
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 1024
+
+Resources:
+  VayuVaidyaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: vayu-vaidya-wallmiki
+      PackageType: Image
+      Architectures:
+        - x86_64
+      Environment:
+        Variables:
+          NODE_ENV: production
+          PORT: 3000
+          AWS_LWA_PORT: 3000
+          GEMINI_API_KEY: ""
+      FunctionUrlConfig:
+        AuthType: NONE
+      Events:
+        AlexaSkill:
+          Type: AlexaSkill
+          Properties:
+            # Replace with your Alexa Skill ID from the Alexa Developer Console
+            SkillId: amzn1.ask.skill.replace-with-your-skill-id
+
+    Metadata:
+      DockerTag: latest
+      DockerContext: ..
+      Dockerfile: Dockerfile.lambda
+
+Outputs:
+  VayuVaidyaFunctionArn:
+    Description: "Lambda Function ARN to paste into Alexa Developer Console Endpoint"
+    Value: !GetAtt VayuVaidyaFunction.Arn
+  VayuVaidyaFunctionUrl:
+    Description: "Public Lambda Function URL (also accessible as Alexa HTTPS endpoint)"
+    Value: !GetAtt VayuVaidyaFunctionUrl.FunctionUrl

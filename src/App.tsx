@@ -16,7 +16,8 @@ import {
   ExternalLink,
   Brain,
   Palette,
-  Compass
+  Compass,
+  Radio
 } from "lucide-react";
 import { NavigationTab, BotMediaItem } from "./types";
 import { HologramStage } from "./components/HologramStage";
@@ -26,6 +27,7 @@ import { ArtTherapyLab } from "./components/ArtTherapyLab";
 import { DrugScoringEngine } from "./components/DrugScoringEngine";
 import { TherapyCustomizationLab } from "./components/TherapyCustomizationLab";
 import { JavaBridgeExplorer } from "./components/JavaBridgeExplorer";
+import { AlexaSkillSimulator } from "./components/AlexaSkillSimulator";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>("holoprojector");
@@ -197,6 +199,18 @@ export default function App() {
               <Cpu className="w-3.5 h-3.5" />
               <span>Java 1.8 Bridge</span>
             </button>
+
+            <button
+              onClick={() => setActiveTab("alexa")}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+                activeTab === "alexa"
+                  ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-slate-950 shadow-md shadow-cyan-500/20 font-bold"
+                  : "text-cyan-300 hover:text-cyan-100 bg-cyan-950/40 border border-cyan-500/30"
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span>Alexa & Cloud Deploy</span>
+            </button>
           </nav>
         </div>
       </header>
@@ -284,6 +298,34 @@ export default function App() {
                   Evaluate drug burden ({patientDrug} {patientDose}mg) against holistic mental wellness therapies for safe non-pharmacological support.
                 </p>
               </div>
+            </div>
+
+            {/* Alexa & AWS Lambda Quick Access Banner */}
+            <div
+              onClick={() => setActiveTab("alexa")}
+              className="p-4 rounded-xl bg-gradient-to-r from-purple-950/40 via-slate-900/60 to-cyan-950/40 border border-purple-500/30 hover:border-purple-400/60 cursor-pointer transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30 group-hover:bg-purple-500/30 transition-colors">
+                  <Radio className="w-5 h-5 animate-pulse" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h4 className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors">
+                      Amazon Alexa Skill & Render / AWS Cloud Deploy Hub
+                    </h4>
+                    <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/40">
+                      "Alexa, open Vayu Vaidya"
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Test Wallmiki voice commands in the simulator, or deploy to Render (render.yaml) or AWS Lambda Docker with automated blueprints.
+                  </p>
+                </div>
+              </div>
+              <button className="px-3.5 py-1.5 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shrink-0 transition-colors">
+                Launch Cloud & Alexa Hub
+              </button>
             </div>
           </div>
         )}
@@ -377,6 +419,9 @@ export default function App() {
 
         {/* Tab 7: Java 1.8 & Eclipse Architecture */}
         {activeTab === "java-bridge" && <JavaBridgeExplorer />}
+
+        {/* Tab 8: Alexa Skill & AWS Lambda Container Hub */}
+        {activeTab === "alexa" && <AlexaSkillSimulator />}
       </main>
 
       {/* Footer */}

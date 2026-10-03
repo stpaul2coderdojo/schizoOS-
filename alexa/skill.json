@@ -1,0 +1,58 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Vayu Vaidya Wallmiki",
+          "summary": "Clinically grounded AI E-Psychiatrist, vagal breathwork, and cognitive grounding companion.",
+          "description": "Vayu Vaidya • Wallmiki is an AI-powered e-psychiatry sanctuary and mental wellness companion. Guided by Dr. Bheemaiah Anil K's schizoOS cognitive architecture, Wallmiki helps you practice 4-4-6-2 vagal breathing, sensory grounding, schizoOS autopilot check-ins, and Woebot-style cognitive behavioral therapy. Breathe, ground your nervous system, and restore inner equilibrium directly from your Amazon Alexa device.",
+          "smallIconUri": "https://www.vayuvaidya.info/icon_108.png",
+          "largeIconUri": "https://www.vayuvaidya.info/icon_512.png",
+          "examplePhrases": [
+            "Alexa, open Vayu Vaidya",
+            "Alexa, ask Vayu Vaidya for a breathing exercise",
+            "Alexa, ask Vayu Vaidya to check my autopilot loop"
+          ],
+          "keywords": [
+            "mental health",
+            "psychiatry",
+            "meditation",
+            "breathing",
+            "pranayama",
+            "cbt",
+            "anxiety",
+            "schizoos",
+            "wellness",
+            "mindfulness"
+          ]
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Open the skill by saying 'Alexa, open Vayu Vaidya'. Test commands such as 'Start breathing exercise', 'Ground my senses', 'Check my autopilot', or 'Scan my body'. Verify that Wallmiki responds with calming therapeutic voice instructions.",
+      "category": "HEALTH_AND_FITNESS",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:123456789012:function:vayu-vaidya-wallmiki"
+        },
+        "interfaces": []
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false,
+      "locales": {
+        "en-US": {
+          "privacyPolicyUrl": "https://www.vayuvaidya.info/privacy",
+          "termsOfUseUrl": "https://www.vayuvaidya.info/terms"
+        }
+      }
+    }
+  }
+}
