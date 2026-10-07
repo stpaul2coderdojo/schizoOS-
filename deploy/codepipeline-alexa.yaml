@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  Automated AWS CodePipeline to Build and Deploy the Vayu Vaidya • Wallmiki
+  Alexa Skill (skill.json + interactionModel/custom/en-US.json) directly from GitHub.
+
+Parameters:
+  GitHubConnectionArn:
+    Type: String
+    Description: AWS CodeConnections (CodeStar Connections) ARN for GitHub
+  GitHubRepoId:
+    Type: String
+    Default: "stpaul2coderdojo/schizoOS-"
+    Description: GitHub Repository (owner/repo)
+  GitHubBranch:
+    Type: String
+    Default: "main"
+    Description: Git branch to track
+  AlexaSkillId:
+    Type: String
+    Description: Alexa Skill ID (e.g., amzn1.ask.skill.xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)
+  AlexaClientId:
+    Type: String
+    Description: Amazon Developer Login with Amazon (LWA) Client ID
+  AlexaClientSecret:
+    Type: String
+    NoEcho: true
+    Description: Amazon Developer Login with Amazon (LWA) Client Secret
+  AlexaRefreshToken:
+    Type: String
+    NoEcho: true
+    Description: Amazon Developer LWA Refresh Token generated via ASK CLI
+
+Resources:
+  # S3 Artifact Bucket for CodePipeline
+  ArtifactStoreBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+  # IAM Role for AWS CodePipeline
+  CodePipelineServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: CodePipelineAlexaDeployPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                  - s3:GetBucketVersioning
+                  - s3:PutObject
+                Resource:
+                  - !GetAtt ArtifactStoreBucket.Arn
+                  - !Sub "${ArtifactStoreBucket.Arn}/*"
+              - Effect: Allow
+                Action:
+                  - codestar-connections:UseConnection
+                Resource: !Ref GitHubConnectionArn
+
+  # AWS CodePipeline with Native Alexa Skills Kit Deployment Provider
+  AlexaSkillPipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: vayu-vaidya-alexa-skill-pipeline
+      RoleArn: !GetAtt CodePipelineServiceRole.Arn
+      ArtifactStore:
+        Type: S3
+        Location: !Ref ArtifactStoreBucket
+      Stages:
+        # Stage 1: Pull Source from GitHub (contains root skill.json & interactionModel/custom/en-US.json)
+        - Name: Source
+          Actions:
+            - Name: GitHub_Source
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeStarSourceConnection
+                Version: '1'
+              Configuration:
+                ConnectionArn: !Ref GitHubConnectionArn
+                FullRepositoryId: !Ref GitHubRepoId
+                BranchName: !Ref GitHubBranch
+              OutputArtifacts:
+                - Name: SourceArtifact
+
+        # Stage 2: Deploy directly to Alexa Skills Kit
+        - Name: DeployToAlexa
+          Actions:
+            - Name: Deploy_Alexa_Skill
+              ActionTypeId:
+                Category: Deploy
+                Owner: ThirdParty
+                Provider: Alexa
+                Version: '1'
+              InputArtifacts:
+                - Name: SourceArtifact
+              Configuration:
+                SkillId: !Ref AlexaSkillId
+                ClientId: !Ref AlexaClientId
+                ClientSecret: !Ref AlexaClientSecret
+                RefreshToken: !Ref AlexaRefreshToken
+
+Outputs:
+  PipelineName:
+    Description: Name of the created AWS CodePipeline
+    Value: !Ref AlexaSkillPipeline
+  ArtifactBucket:
+    Description: S3 Bucket storing pipeline artifacts
+    Value: !Ref ArtifactStoreBucket

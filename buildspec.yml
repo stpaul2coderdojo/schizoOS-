@@ -1,0 +1,58 @@
+version: 0.2
+
+# ==============================================================================
+# AWS CodeBuild Specification for Automated Alexa Skill & Lambda Deployment
+# Works with AWS CodePipeline + Alexa Skills Kit Deploy Action
+# ==============================================================================
+
+env:
+  variables:
+    AWS_REGION: "us-east-1"
+    FUNCTION_NAME: "vayu-vaidya-wallmiki"
+    ECR_REPO_NAME: "vayu-vaidya-wallmiki"
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 20
+    commands:
+      - echo "Installing project dependencies..."
+      - if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+  pre_build:
+    commands:
+      - echo "Validating Alexa Skill Manifest and Interaction Model..."
+      - test -f skill.json
+      - test -f interactionModel/custom/en-US.json
+      - AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+      - ECR_URI="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}"
+      - IMAGE_TAG="${CODEBUILD_RESOLVED_SOURCE_VERSION:-latest}"
+      - echo "Logging in to Amazon ECR..."
+      - aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+  build:
+    commands:
+      - echo "Building Vayu Vaidya • Wallmiki Lambda Container Image..."
+      - docker build -f Dockerfile.lambda -t "$ECR_URI:$IMAGE_TAG" -t "$ECR_URI:latest" .
+      - echo "Pushing Docker Image to Amazon ECR..."
+      - docker push "$ECR_URI:$IMAGE_TAG"
+      - docker push "$ECR_URI:latest"
+
+  post_build:
+    commands:
+      - echo "Updating AWS Lambda Function Code..."
+      - |
+        if aws lambda get-function --function-name "$FUNCTION_NAME" --region "$AWS_REGION" >/dev/null 2>&1; then
+          aws lambda update-function-code \
+            --function-name "$FUNCTION_NAME" \
+            --image-uri "$ECR_URI:$IMAGE_TAG" \
+            --region "$AWS_REGION"
+          aws lambda wait function-updated --function-name "$FUNCTION_NAME" --region "$AWS_REGION"
+        fi
+      - echo "Build and Lambda update complete. Packaging skill.json and interactionModel/custom/en-US.json for Alexa Deploy stage..."
+
+artifacts:
+  files:
+    - skill.json
+    - interactionModel/custom/en-US.json
+  discard-paths: no
