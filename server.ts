@@ -69,6 +69,10 @@ Tone: Deep, ethereal, calm, low resonant male presence ("Wallmiki"), warm, groun
 `;
 
 // API Routes FIRST
+app.get("/privacy", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "privacy.html"));
+});
+
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",

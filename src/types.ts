@@ -1,4 +1,5 @@
 export type NavigationTab = 
+  | "landing"
   | "holoprojector"
   | "chat"
   | "canvas"

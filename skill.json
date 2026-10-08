@@ -49,8 +49,8 @@
       "containsAds": false,
       "locales": {
         "en-US": {
-          "privacyPolicyUrl": "https://www.vayuvaidya.info/privacy",
-          "termsOfUseUrl": "https://www.vayuvaidya.info/terms"
+          "privacyPolicyUrl": "https://github.com/stpaul2coderdojo/schizoOS-/blob/main/PRIVACY.md",
+          "termsOfUseUrl": "https://github.com/stpaul2coderdojo/schizoOS-/blob/main/TERMS.md"
         }
       }
     }

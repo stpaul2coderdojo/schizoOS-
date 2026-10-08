@@ -5,21 +5,14 @@
 
 import React, { useState } from "react";
 import {
-  Sparkles,
-  Layers,
   MessageSquareHeart,
   Scale,
-  Wind,
-  Cpu,
-  Globe,
-  ShieldAlert,
-  ExternalLink,
   Brain,
   Palette,
-  Compass,
   Radio
 } from "lucide-react";
 import { NavigationTab, BotMediaItem } from "./types";
+import { CinematicLanding } from "./components/CinematicLanding";
 import { HologramStage } from "./components/HologramStage";
 import { TherapyChat } from "./components/TherapyChat";
 import { SchizoOSExplorer } from "./components/SchizoOSExplorer";
@@ -30,7 +23,7 @@ import { JavaBridgeExplorer } from "./components/JavaBridgeExplorer";
 import { AlexaSkillSimulator } from "./components/AlexaSkillSimulator";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<NavigationTab>("holoprojector");
+  const [activeTab, setActiveTab] = useState<NavigationTab>("landing");
   const [isAvatarSpeaking, setIsAvatarSpeaking] = useState(false);
   const [currentSpokenText, setCurrentSpokenText] = useState<string>(
     "Welcome to the Vayu Vaidya sanctuary. I am Wallmiki, your Mental Wellness Companion."
@@ -54,169 +47,111 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
-      {/* Top Clinical & System Status Notice Banner */}
-      <div className="bg-slate-900 border-b border-slate-800/80 px-4 py-2 text-xs text-slate-400 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 font-mono text-[11px] text-cyan-400">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span>Wallmiki Companion Active</span>
-          </div>
-          <span className="text-slate-600 hidden sm:inline">|</span>
-          <span className="hidden sm:inline text-slate-300">
-            Project: <strong className="text-slate-100">Milwaukee, WI (Dec 2017 - Present)</strong>
-          </span>
-          <span className="text-slate-600 hidden md:inline">|</span>
-          <span className="hidden md:inline text-slate-400">
-            Mental Wellness, Woebot CBT & schizoOS by <strong>Dr. Bheemaiah Anil K</strong>
-          </span>
-        </div>
-
-        <div className="flex items-center gap-4 text-xs">
-          <a
-            href="http://www.vayuvaidya.info"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-1 text-cyan-400 hover:text-cyan-300 transition-colors font-mono"
+      {/* Primary Header: Strict 3-Zone Top Bar Contract */}
+      <header className="border-b border-slate-800/80 bg-slate-950/95 backdrop-blur sticky top-0 z-30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-6">
+          {/* Zone 1: Single text element wordmark */}
+          <button
+            onClick={() => setActiveTab("landing")}
+            className="text-base sm:text-lg font-bold tracking-tight text-white font-display whitespace-nowrap shrink-0 cursor-pointer hover:text-cyan-300 transition-colors"
           >
-            <Globe className="w-3.5 h-3.5" />
-            <span>vayuvaidya.info</span>
-            <ExternalLink className="w-3 h-3" />
-          </a>
-          <span className="text-amber-400/90 hidden lg:flex items-center gap-1">
-            <ShieldAlert className="w-3.5 h-3.5" />
-            <span>Support: 988 Suicide & Crisis Lifeline</span>
-          </span>
-        </div>
-      </div>
+            VAYU VAIDYA · WALLMIKI
+          </button>
 
-      {/* Primary Header */}
-      <header className="border-b border-slate-800 bg-slate-950/90 backdrop-blur sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
-          {/* Logo & Title */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-indigo-600 to-rose-500 p-0.5 shadow-lg shadow-cyan-500/20">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center text-cyan-400">
-                <Sparkles className="w-5 h-5" />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-lg sm:text-xl font-bold tracking-tight text-white font-display">
-                  VAYU VAIDYA • WALLMIKI
-                </h1>
-                <span className="px-2 py-0.5 text-[10px] font-mono rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-semibold">
-                  MENTAL WELLNESS
-                </span>
-              </div>
-              <p className="text-xs text-slate-400">
-                CBT • MiCBT • schizoOS Autopilot Modeling & Art Therapy by Dr. Bheemaiah Anil K
-              </p>
-            </div>
-          </div>
-
-          {/* Navigation Tabs */}
-          <nav className="flex items-center p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs overflow-x-auto max-w-full gap-1">
+          {/* Zone 2: 5 clean text navigation links */}
+          <nav className="hidden md:flex items-center gap-6 text-xs sm:text-sm font-medium text-slate-400">
+            <button
+              onClick={() => setActiveTab("landing")}
+              className={`whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
+                activeTab === "landing"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
+              }`}
+            >
+              Sanctuary
+            </button>
             <button
               onClick={() => setActiveTab("holoprojector")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 activeTab === "holoprojector"
-                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
               }`}
             >
-              <Layers className="w-3.5 h-3.5" />
-              <span>Holoprojector</span>
+              Holoprojector
             </button>
-
-            <button
-              onClick={() => setActiveTab("chat")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
-                activeTab === "chat"
-                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <MessageSquareHeart className="w-3.5 h-3.5" />
-              <span>CBT Chatbot</span>
-            </button>
-
             <button
               onClick={() => setActiveTab("schizo-os")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 activeTab === "schizo-os"
-                  ? "bg-indigo-500 text-slate-950 shadow-md shadow-indigo-500/20 font-bold"
-                  : "text-indigo-300 hover:text-indigo-200 bg-indigo-950/40 border border-indigo-500/30"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
               }`}
             >
-              <Brain className="w-3.5 h-3.5 text-indigo-400" />
-              <span>schizoOS Autopilot</span>
+              schizoOS
             </button>
-
             <button
               onClick={() => setActiveTab("art-therapy")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 activeTab === "art-therapy"
-                  ? "bg-rose-500 text-slate-950 shadow-md shadow-rose-500/20 font-bold"
-                  : "text-rose-300 hover:text-rose-200 bg-rose-950/40 border border-rose-500/30"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
               }`}
             >
-              <Palette className="w-3.5 h-3.5 text-rose-400" />
-              <span>Interactive Canvas & Art</span>
+              Art Studio
             </button>
-
             <button
               onClick={() => setActiveTab("scoring")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 activeTab === "scoring"
-                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
               }`}
             >
-              <Scale className="w-3.5 h-3.5" />
-              <span>Wellness Scoring</span>
+              Wellness Scoring
             </button>
-
             <button
               onClick={() => setActiveTab("therapies")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
+              className={`hidden xl:inline-block whitespace-nowrap shrink-0 transition-colors cursor-pointer ${
                 activeTab === "therapies"
-                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-slate-200"
+                  ? "text-white underline underline-offset-8 decoration-cyan-400"
+                  : "hover:text-slate-100"
               }`}
             >
-              <Wind className="w-3.5 h-3.5" />
-              <span>Pranayama Lab</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("java-bridge")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
-                activeTab === "java-bridge"
-                  ? "bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              <Cpu className="w-3.5 h-3.5" />
-              <span>Java 1.8 Bridge</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("alexa")}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-all whitespace-nowrap font-medium ${
-                activeTab === "alexa"
-                  ? "bg-gradient-to-r from-cyan-500 to-purple-500 text-slate-950 shadow-md shadow-cyan-500/20 font-bold"
-                  : "text-cyan-300 hover:text-cyan-100 bg-cyan-950/40 border border-cyan-500/30"
-              }`}
-            >
-              <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-              <span>Alexa & Cloud Deploy</span>
+              Pranayama Lab
             </button>
           </nav>
+
+          {/* Zone 3: 2 primary actions */}
+          <div className="flex items-center gap-3 shrink-0">
+            <button
+              onClick={() => setActiveTab("alexa")}
+              className="hidden sm:inline-flex px-3.5 py-2 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap cursor-pointer"
+            >
+              Alexa & Cloud
+            </button>
+            <button
+              onClick={() => setActiveTab("chat")}
+              className="px-4 py-2 text-xs font-semibold text-slate-950 bg-cyan-400 rounded-lg hover:bg-cyan-300 transition-colors whitespace-nowrap cursor-pointer"
+            >
+              Open CBT Session
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        {/* Tab 0: Cinematic Landing Page */}
+        {activeTab === "landing" && (
+          <CinematicLanding
+            onNavigate={(tab) => setActiveTab(tab)}
+            onLaunchPrompt={handleTherapySelectedToChat}
+            patientDrug={patientDrug}
+            patientDose={patientDose}
+          />
+        )}
+
         {/* Tab 1: Holoprojector Stage */}
         {activeTab === "holoprojector" && (
           <div className="space-y-6">
@@ -425,17 +360,40 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-auto border-t border-slate-800/80 bg-slate-950 px-4 py-4 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-400 font-display">Vayu Vaidya - Mother Divine</span>
-            <span>•</span>
-            <span>Milwaukee, WI</span>
-            <span>•</span>
-            <span>December 2017 to Present</span>
+      <footer className="mt-auto border-t border-slate-800/80 bg-slate-950 px-4 py-6 text-xs text-slate-400">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-semibold text-slate-200 font-display">Vayu Vaidya · Wallmiki</span>
+            <span aria-hidden="true">·</span>
+            <span>Milwaukee, WI (Dec 2017 – Present)</span>
+            <span aria-hidden="true">·</span>
+            <span>Directed by Dr. Bheemaiah Anil K</span>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <button
+              onClick={() => setActiveTab("landing")}
+              className="hover:text-cyan-300 transition-colors cursor-pointer"
+            >
+              Sanctuary Home
+            </button>
+            <span aria-hidden="true">·</span>
+            <button
+              onClick={() => setActiveTab("java-bridge")}
+              className="hover:text-cyan-300 transition-colors cursor-pointer"
+            >
+              Java 1.8 Bridge
+            </button>
+            <span aria-hidden="true">·</span>
+            <a
+              href="/privacy"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-300 transition-colors"
+            >
+              Privacy Notice
+            </a>
+            <span aria-hidden="true">·</span>
             <a
               href="http://www.vayuvaidya.info"
               target="_blank"
@@ -444,8 +402,8 @@ export default function App() {
             >
               www.vayuvaidya.info
             </a>
-            <span>•</span>
-            <span>schizoOS & Art Automatism by Dr. Bheemaiah Anil K</span>
+            <span aria-hidden="true">·</span>
+            <span className="text-amber-300/90">Crisis Support: 988 Lifeline</span>
           </div>
         </div>
       </footer>
