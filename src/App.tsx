@@ -21,6 +21,7 @@ import { DrugScoringEngine } from "./components/DrugScoringEngine";
 import { TherapyCustomizationLab } from "./components/TherapyCustomizationLab";
 import { JavaBridgeExplorer } from "./components/JavaBridgeExplorer";
 import { AlexaSkillSimulator } from "./components/AlexaSkillSimulator";
+import { HackathonDeckStudio } from "./components/HackathonDeckStudio";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<NavigationTab>("landing");
@@ -123,7 +124,17 @@ export default function App() {
           </nav>
 
           {/* Zone 3: 2 primary actions */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => setActiveTab("hackathon-deck")}
+              className={`hidden sm:inline-flex px-3 py-2 text-xs font-medium rounded-lg border transition-colors whitespace-nowrap cursor-pointer ${
+                activeTab === "hackathon-deck"
+                  ? "bg-purple-500/20 text-purple-200 border-purple-400/50"
+                  : "text-purple-300 bg-purple-950/40 border-purple-500/30 hover:bg-purple-900/40"
+              }`}
+            >
+              Devpost Deck & Video
+            </button>
             <button
               onClick={() => setActiveTab("alexa")}
               className="hidden sm:inline-flex px-3.5 py-2 text-xs font-medium text-slate-200 bg-slate-900 border border-slate-700 rounded-lg hover:bg-slate-800 transition-colors whitespace-nowrap cursor-pointer"
@@ -357,6 +368,9 @@ export default function App() {
 
         {/* Tab 8: Alexa Skill & AWS Lambda Container Hub */}
         {activeTab === "alexa" && <AlexaSkillSimulator />}
+
+        {/* Tab 9: Amazon Developer Hackathon 2026 Slide Deck (.PPTX) & Auto-Video Studio */}
+        {activeTab === "hackathon-deck" && <HackathonDeckStudio />}
       </main>
 
       {/* Footer */}
@@ -384,6 +398,21 @@ export default function App() {
             >
               Java 1.8 Bridge
             </button>
+            <span aria-hidden="true">·</span>
+            <button
+              onClick={() => setActiveTab("hackathon-deck")}
+              className="text-purple-300 hover:text-purple-200 transition-colors cursor-pointer"
+            >
+              Hackathon 2026 Deck (.PPTX)
+            </button>
+            <span aria-hidden="true">·</span>
+            <a
+              href="/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx"
+              download
+              className="text-cyan-400 hover:underline"
+            >
+              Download .PPTX
+            </a>
             <span aria-hidden="true">·</span>
             <a
               href="/privacy"

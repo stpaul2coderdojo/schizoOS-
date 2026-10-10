@@ -782,6 +782,42 @@ export const CinematicLanding: React.FC<CinematicLandingProps> = ({
           </div>
         </div>
       </section>
+
+      {/* SECTION 7: AMAZON DEVELOPER HACKATHON 2026: BUILD, SHIP, SHAPE — DEVPOST SLIDE DECK & AUTO-VIDEO */}
+      <section className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-indigo-950/60 via-slate-900/90 to-cyan-950/50 border border-cyan-500/30 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div className="space-y-2 max-w-2xl">
+          <div className="text-xs font-mono uppercase tracking-widest text-cyan-400">
+            06 · AMAZON DEVELOPER HACKATHON 2026: BUILD, SHIP, SHAPE · DEVPOST
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-white font-display">
+            Official Pitch Deck (.PPTX) & Auto-Video Presentation Studio
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Explore our 8-slide widescreen presentation covering the{" "}
+            <strong className="text-white">Build, Ship, Shape</strong> architecture on Amazon Alexa
+            Skills Kit & AWS Lambda, download the static{" "}
+            <code className="text-cyan-300 font-mono">.pptx</code> file from GitHub, or convert the
+            slides automatically into a 1080p HD Devpost video.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            onClick={() => onNavigate("hackathon-deck")}
+            className="px-5 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-semibold text-xs sm:text-sm flex items-center gap-2 transition-colors cursor-pointer"
+          >
+            <Play className="w-4 h-4" />
+            <span>Open Slide Deck & Video Studio</span>
+          </button>
+          <a
+            href="/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx"
+            download="Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx"
+            className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-medium text-xs sm:text-sm transition-colors"
+          >
+            Download .PPTX
+          </a>
+        </div>
+      </section>
     </div>
   );
 };

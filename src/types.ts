@@ -8,7 +8,8 @@ export type NavigationTab =
   | "scoring"
   | "therapies"
   | "java-bridge"
-  | "alexa";
+  | "alexa"
+  | "hackathon-deck";
 
 export interface BotMediaItem {
   id: string;

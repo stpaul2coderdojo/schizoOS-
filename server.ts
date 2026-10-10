@@ -73,6 +73,19 @@ app.get("/privacy", (req, res) => {
   res.sendFile(path.join(process.cwd(), "public", "privacy.html"));
 });
 
+app.get("/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx", (req, res) => {
+  const pptxPath = path.join(
+    process.cwd(),
+    "public",
+    "deck",
+    "Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx"
+  );
+  res.download(
+    pptxPath,
+    "Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx"
+  );
+});
+
 app.get("/api/health", (req, res) => {
   res.json({
     status: "ok",

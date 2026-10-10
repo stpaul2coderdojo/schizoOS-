@@ -22,6 +22,18 @@ Wallmiki is embodied as an ethereal, low-resonant digital human guide whose pres
 
 ---
 
+## 🏆 Amazon Developer Hackathon 2026: Build, Ship, Shape (Devpost Slide Deck & Video)
+
+* **Download Official PowerPoint (`.pptx`) Slide Deck from GitHub**:
+  * **Relative Repository Path**: [`public/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx`](public/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx)
+  * **Direct Raw GitHub Download URL**: `https://github.com/<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>/raw/main/public/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx`
+  * **Live Server Download Endpoint**: `/deck/Vayu-Vaidya-Amazon-Hackathon-2026-Build-Ship-Shape.pptx`
+* **Automatic Slide-to-Video Synthesis**:
+  * Open the **Devpost Deck & Video** tab in the application and click **Auto-Convert Deck to Video** to automatically render all 8 widescreen (1080p HD) slides with a 136.1Hz / 432Hz harmonic audio track into a downloadable `.webm` video file for Devpost, or use PowerPoint's **File → Export → Create a Video** with the pre-populated speaker narration notes.
+  * To regenerate the `.pptx` from the command line: `npx tsx deploy/generate-hackathon-pptx.ts`
+
+---
+
 ## 🧠 Core Clinical & Theoretical Foundations
 
 ### 1. schizoOS Cognitive Architecture *(Invented by Dr. Bheemaiah Anil K)*
