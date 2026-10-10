@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { ColorClusterMetric, StatePodAnalysis, BotMediaItem } from "../types";
 import { speakText, soundEngine } from "../utils/audioSynth";
+import picassoBlueArtImg from "../assets/images/card_picasso_blue_art_therapy_1791454402375.jpg";
 
 const PALETTES = [
   { name: "Vayu Cyan", hex: "#06b6d4" },
@@ -1332,12 +1333,22 @@ export const ArtTherapyLab: React.FC<{
               </div>
             </div>
           ) : (
-            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 text-center space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-indigo-500/20 border border-cyan-500/30 mx-auto flex items-center justify-center text-cyan-400">
-                <Palette className="w-6 h-6" />
+            <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-4">
+              <div className="relative h-44 rounded-xl overflow-hidden border border-slate-800">
+                <img
+                  src={picassoBlueArtImg}
+                  alt="Picasso Blue Period inspired oil painting for Feminist Art Therapy and State Pod Automatism"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent" />
+                <div className="absolute bottom-2.5 left-3 right-3 flex items-center justify-between text-[11px]">
+                  <span className="text-cyan-300 font-medium">Picasso Blue Period · Somatic Resonance</span>
+                  <span className="font-mono text-slate-300">Prussian & Cerulean Cluster</span>
+                </div>
               </div>
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-slate-200">Expressive Automatism & Canvas</h4>
+              <div className="space-y-1 text-center">
+                <h4 className="text-sm font-bold text-slate-200">Feminist Art Therapy & Expressive Automatism</h4>
                 <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
                   Select a Wallmiki media item above to project onto the canvas as an underlay, or draw spontaneously with radial mandala symmetry. Click "Analyze State Pod Automatism" to decode your subconscious color clusters.
                 </p>

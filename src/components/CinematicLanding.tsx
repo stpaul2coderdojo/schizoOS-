@@ -16,7 +16,7 @@ import {
 import { NavigationTab } from "../types";
 import heroWallmikiImg from "../assets/images/hero_wallmiki_sanctuary_1791451754909.jpg";
 import schizoOsCardImg from "../assets/images/card_schizoos_autopilot_1791451638452.jpg";
-import artAutomatismCardImg from "../assets/images/card_art_automatism_1791451652226.jpg";
+import artAutomatismCardImg from "../assets/images/card_picasso_blue_art_therapy_1791454402375.jpg";
 
 interface CinematicLandingProps {
   onNavigate: (tab: NavigationTab) => void;
@@ -498,7 +498,7 @@ export const CinematicLanding: React.FC<CinematicLandingProps> = ({
             <div className="md:col-span-5 relative min-h-[240px] bg-slate-950 order-2 md:order-1">
               <img
                 src={artAutomatismCardImg}
-                alt="Expressive abstract fluid art canvas in deep rose, gold leaf, and luminous cyan pigments inside a dark studio"
+                alt="Expressive oil painting in the style of Pablo Picasso's Blue Period in deep monochromatic Prussian blue, cerulean, and indigo tones"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover opacity-85"
               />
